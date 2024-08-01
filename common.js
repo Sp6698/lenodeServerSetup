@@ -1,11 +1,11 @@
 //Trial Back End Javascript
 const express = require("express");
 const router = express.Router();
-const url = "mongodb://localhost:27017"
 const MongoClient = require("mongodb").MongoClient;
 const client = new MongoClient(url);
-
-let mydb = 'StudentsDatabase'
+const parameters = require("./parameters");
+const url = parameters.url
+const mydb = parameters.mydb
 
 router.get("/all/:myCollection", async (req, res) => {
 
