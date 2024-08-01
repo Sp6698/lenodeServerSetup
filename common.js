@@ -121,8 +121,20 @@ router.post("/delete/:myCollection", async (req, res) => {
         
         let deleteResult = await client.db(mydb).collection(myCollection).deleteOne({ _id: myModifyId })
         console.log(deleteResult)//{ acknowledged: true, deletedCount: 0 }
+
         // await client.close();
         if (deleteResult.acknowledged) {
+            let highestDocNoDocument = await client.db(mydb).collection(myCollection).find({}).sort({ _id: -1 }).limit(1).toArray();
+            console.log("highest doc No document\n", highestDocNoDocument); 
+           
+            let newSequenceValue = highestDocNoDocument.length > 0 ? highestDocNoDocument[0]._id : 0;
+          
+            let updateSequenceValueResult = await client.db(mydb).collection(myCollection).updateOne(
+                { _id: 0 },
+                { $set: { sequenceValue: newSequenceValue } }
+                
+            );
+            console.log("Sequence value decreased", updateSequenceValueResult.modifiedCount)
             res.json({ status: "success", message: `data deleted successfully at record no ${myModifyId}`, });
             return
         }

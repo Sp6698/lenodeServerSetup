@@ -32,7 +32,10 @@ fetch(`/common/all/${'student'}`)
             } else {
                 tdFee.innerHTML = "pending"
             }   
-            tableRow.append(tdid, tdName, tdage, tdStd, tdFee,)
+            let tdAction = document.createElement('td')
+            tdAction.innerHTML = `<button type='submit' class='btn btn-primary'onclick="editStudentData(${res._id})">Edit</button>
+              <button type='button' class='btn btn-primary' onclick="deleteStudentData(${res._id})">Delete</button>`
+            tableRow.append(tdid, tdName, tdage, tdStd, tdFee, tdAction)
             tbody.append(tableRow)
         })
 
@@ -61,9 +64,8 @@ function studentListFn() {
 
 
 function editStudentData(data) {
-    console.log(data)
     // console.log(studentArray[data])
-    // insertDataInField(studentArray[data])
+    insertDataInField(studentArray.find((el)=>el._id==data))
 }
 
 function insertDataInField(data) {
@@ -121,15 +123,10 @@ function updateStudentData() {
 
 }
 
-function deleteStudentData(x) {
-    console.log(x)
-    let data= x.rowIndex;
-    // let data = studentArray[y]
-    // console.log(data)
-    console.log(studentArray[data]._id)
-    let object = studentArray[data]
+function deleteStudentData(data) {
+    let object = studentArray.find((el)=>el._id==data)
     console.log(object)
-
+    
     fetch(`/common/delete/${'student'}`, {
         method: "POST",
         //credentials: 'same-origin',
