@@ -1,0 +1,20 @@
+{
+  "name": "express-practicles",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.19.2",
+    "express-async-handler": "^1.2.0",
+    "express-session": "^1.18.0",
+    "mongodb": "^6.3.0",
+    "nodemon": "^3.0.2"
+  },
+  "description": ""
+}

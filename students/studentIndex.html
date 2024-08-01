@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Data</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    h1 {
+      text-align: center;
+      background-color: rgb(15, 229, 229);
+
+    }
+  </style>
+  <script src="/javascript/student.js" defer></script>
+
+</head>
+
+<body>
+  <h1>Student Dashbord</h1>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+          <a class="nav-link" href="/students" id="student">Student </a>
+          <a class="nav-link" href="/cats" id="student">Cats </a>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="container mt-2 mb-3">
+    <button class="btn btn-primary" onclick="studentListFn()">Student List</button>
+    <button class="btn btn-primary" onclick="addNewStd()">Add new Student</button>
+
+  </div>
+  <h1 id="header"> Students List </h1>
+  <div id="studentList">
+    <div class="table-responsive container">
+      <table class="table table-bordered">
+        <thead class="bg-warning border-dark" style="color: white; text-align: center;">
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Standerd</th>
+            <th>Fee Status</th>
+          </tr>
+        </thead>
+        <tbody id="studentTbody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div id="addStudent">
+    <div class="container mt-5">
+      <form>
+        <div class="form-group mb-3">
+          <label for="id">ID</label>
+          <input type="text" class="form-control " id="id" placeholder="Enter ID">
+        </div>
+        <div class="form-group mb-3">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" id="name" placeholder="Enter Name">
+        </div>
+        <div class="form-group mb-3">
+          <label for="age">Age</label>
+          <input type="number" class="form-control" id="age" placeholder="Enter Age">
+        </div>
+        <div class="form-group mb-3">
+          <label for="standard">Standard</label>
+          <input type="text" class="form-control" id="standard" placeholder="Enter Standard">
+        </div>
+        <div class="form-group mb-3">
+          <label for="fee_status">Fee Status</label>
+          <select class="form-control" id="fee_status">
+            <option value="pending">Pending</option>
+            <option value="paid">Paid</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-primary" id="submitbtn" onclick="saveStudentData()">Submit</button>
+        <button type="button" class="btn btn-primary" id="updatebtn" onclick="updateStudentData()">update</button>
+      </form>
+    </div>
+  </div>
+  <br><br><br><br>
+</body>
+
+</html>
