@@ -1,9 +1,9 @@
 //Trial Back End Javascript
 const express = require("express");
 const router = express.Router();
-const parameters = require("./parameters");
-const url = parameters.url
-const mydb = parameters.mydb
+require('dotenv').config()
+const url = process.env.DB_URL;
+const mydb = process.env.DB_NAME;
 const MongoClient = require("mongodb").MongoClient;
 const client = new MongoClient(url);
 

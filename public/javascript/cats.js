@@ -32,5 +32,5 @@ fetch("/common/catsdata", {
             tableRow.append(tdid, tdName, tdLifeSpan, tdorigin, energy_level)
             tbody.append(tableRow)
         })
-
+        document.getElementById("loaderDiv").style.display = "none";
     });

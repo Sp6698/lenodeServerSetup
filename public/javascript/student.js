@@ -1,3 +1,4 @@
+
 let studentList = document.getElementById('studentList')
 studentList.style.display = 'block'
 let addStudent = document.getElementById('addStudent')
@@ -38,7 +39,7 @@ fetch(`/common/all/${'student'}`)
             tableRow.append(tdid, tdName, tdage, tdStd, tdFee, tdAction)
             tbody.append(tableRow)
         })
-
+        document.getElementById("loaderDiv").style.display = "none";
     });
 
 function addNewStd() {
@@ -102,6 +103,7 @@ function insertDataInField(data) {
 function updateStudentData() {
     let data = getDataFromField()
     console.log(data)
+    document.getElementById("loaderDiv").style.display = "none";
     fetch("/common/update/student", {
         method: "POST",
 

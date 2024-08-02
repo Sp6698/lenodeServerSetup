@@ -13,6 +13,41 @@
             background-color: rgb(15, 229, 229);
 
         }
+
+        #loader {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            z-index: 1;
+            width: 120px;
+            height: 120px;
+            margin: -76px 0 0 -76px;
+            border: 16px solid #cacaca;
+            border-radius: 50%;
+            border-top: 16px solid #8e9a9c;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
     <script src="/javascript/cats.js" defer></script>
 </head>
@@ -35,6 +70,12 @@
             </div>
         </div>
     </nav>
+    <br>
+
+    <div id="loaderDiv">
+        <div id="loader"></div>
+    </div>
+    <br>
     <h1 id="header"> Cats List </h1>
     <div id="catsList">
         <div class="table-responsive container">
