@@ -29,7 +29,7 @@ router.get("/all/:myCollection", async (req, res) => {
 
 router.get("/catsdata", async (req, res) => {
     try {
-        fetch('https://api.thecatapi.com/v1/breeds', {
+       await fetch('https://api.thecatapi.com/v1/breeds', {
         })
             .then((response) => response.json())
             .then((result) => {
