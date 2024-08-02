@@ -15,11 +15,13 @@ router.get("/all/:myCollection", async (req, res) => {
 
     try {
         await client.connect();
+        console.log('connection success')
         // const client =  await MongoClient.connect(url);
         const result = await client.db(mydb).collection(myCollection).find({}).sort({ _id: 1 }).toArray()
         res.json(result);
 
     } catch (error) {
+        console.log("error",error)
         console.error(error)
     }
     finally {
