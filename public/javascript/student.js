@@ -43,10 +43,13 @@ fetch(`/common/all/${'student'}`)
     });
 
 function addNewStd() {
+    clearAllFeildsInAddDiv()
     studentList.style.display = 'none'
     addStudent.style.display = 'block'
     let updatebtn = document.getElementById('updatebtn')
+    let submitbtn = document.getElementById('submitbtn')
     updatebtn.style.display = 'none'
+    submitbtn.style.display = 'block'
     let header = document.getElementById('header')
     header.innerHTML = 'Add New Student'
     let id = document.getElementById('id')
@@ -68,7 +71,11 @@ function editStudentData(data) {
     // console.log(studentArray[data])
     insertDataInField(studentArray.find((el)=>el._id==data))
 }
-
+function clearAllFeildsInAddDiv(){
+  let all = document.querySelectorAll("#addStudent input");
+  for (let el of all) { el.value= ""; }
+  console.log(all)
+}
 function insertDataInField(data) {
     console.log(data)
     studentList.style.display = 'none'

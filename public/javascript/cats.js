@@ -5,9 +5,7 @@ let detailsdiv=document.getElementById('detailsdiv')
 detailsdiv.style.display='none'
 
 
-fetch("/common/catsdata", {
-    
-})
+fetch(`https://api.thecatapi.com/v1/breeds`)
     .then((response) => response.json())
     .then((result) => {
         studentArray = result
