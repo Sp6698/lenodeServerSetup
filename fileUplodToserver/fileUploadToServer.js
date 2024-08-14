@@ -4,7 +4,7 @@ const router = express.Router()
 const fs = require('fs');
 
 router.get("/", (req, res) => {
-    res.sendFile(__dirname + "/fileUplodToserver.html")
+    res.sendFile(__dirname + "/fileUploadToserver2.html")
 })
 
 router.post("/fileUplodToserverApi", async (req, res) => {
@@ -12,20 +12,24 @@ router.post("/fileUplodToserverApi", async (req, res) => {
     try {
         // req body format {filName, fileBinaryData}
         let myObj = req.body;
-        let binaryResponse = new Blob(myObj.fileBinaryData);
-        console.log('binary response',binaryResponse);
-        console.log('binary response length',binaryResponse.length);
-        // let fileBinaryData = Buffer.from(myObj.fileBinaryData, 'base64');
-        // let fileBinaryData = atob(myObj.fileBinaryData);
-        // console.log("fileBinaryData in binary form of frontend",fileBinaryData.length)
-        // Replace 'path/to/your/file.pdf' with the actual path to your PDF file
-        const pdfFilePath = "uberbill1.png";
+        let base64Data = myObj.fileBinaryData.replace(/^data:application\/octet-stream;base64,/, '');
+        let fileBinaryData = Buffer.from(base64Data, 'base64');
+        console.log(fileBinaryData)
+        // return
+        // let binaryResponse = new Blob(myObj.fileBinaryData);
+        // console.log('binary response',binaryResponse);
+        // console.log('binary response length',binaryResponse.length);
+        // // let fileBinaryData = Buffer.from(myObj.fileBinaryData, 'base64');
+        // // let fileBinaryData = atob(myObj.fileBinaryData);
+        // // console.log("fileBinaryData in binary form of frontend",fileBinaryData.length)
+        // // Replace 'path/to/your/file.pdf' with the actual path to your PDF file
+        // const pdfFilePath = "uberbill1.png";
 
-        // Read the PDF file as binary data
-        const binaryData = fs.readFileSync(pdfFilePath);
+        // // Read the PDF file as binary data
+        // const binaryData = fs.readFileSync(pdfFilePath);
 
-        console.log('Binary Data Length:', binaryData.length); // Length of the binary data
-        console.log('Binary Data: of backend', binaryData); // The binary data itself (this will be a long output!)
+        // console.log('Binary Data Length:', binaryData.length); // Length of the binary data
+        // console.log('Binary Data: of backend', binaryData); // The binary data itself (this will be a long output!)
         
         // return;
         let newLocationResponse = await fetch("https://med72037-api.deltekfirst.com/filedrop/v1/md72037/new", {
@@ -115,6 +119,32 @@ router.post("/fileUplodToserverApi", async (req, res) => {
     } catch (error) {
         console.log(error)
     }
+});
+router.post('/upload', (req, res) => {
+    let { fileName, fileData } = req.body;
+
+    // Decode the base64 data to binary
+    let base64Data = fileData.replace(/^data:application\/octet-stream;base64,/, '');
+    let buffer = Buffer.from(base64Data, 'base64');
+
+    // Process the buffer as needed (e.g., logging, sending over network, etc.)
+    console.log('File received as binary data:');
+    console.log(buffer);
+    console.log("------------------------------------------");
+    
+    const pdfFilePath = "uberbill1.png";
+    
+    // Read the PDF file as binary data
+    const binaryData = fs.readFileSync(pdfFilePath);
+    
+    console.log('Binary Data Length:');
+    console.log(binaryData);
+    // Example: Convert buffer to a string if it’s text data
+    // const fileContent = buffer.toString('utf8');
+    // console.log('File content as string:');
+    // console.log(fileContent);
+
+    res.json({ message: 'File received and processed successfully' });
 });
 
 module.exports = router;

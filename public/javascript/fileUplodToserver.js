@@ -93,47 +93,110 @@ console.log("Hello")
 //     }
 // });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-document.getElementById('convertBtn').addEventListener('click', async function () {
-    let fileInput = document.getElementById('fileInput').files[0];
-    console.log(fileInput)
-    if (fileInput) {
-        let reader = new FileReader();
+//--------------------------------------------------------------------------------------------//
 
-        reader.onload = async function (event) {
-            let fileBinaryData = btoa(event.target.result);
-            console.log(fileBinaryData)
-            // return
+// document.getElementById('convertBtn').addEventListener('submit', async function (event) {
+//     event.preventDefault();
+//     let fileInput = document.getElementById('fileInput').files[0];
+//     let username = document.getElementById('username').value
+//     console.log(fileInput)
+//     // if (fileInput) {
+//     //     let formData = new FormData();
+//     //     formData.append('fileInput', fileInput);
+//     //     formData.append('username', username);
+//     //     console.log("formData:-",formData)
+//     //     // return
+//     //     try {
+//     //         // Send POST request with Base64 encoded data
+//     //         const response = await fetch('/fileUplodToserver/fileUplodToserverApi', {
+//     //             method: 'POST',
+//     //             body: formData
+//     //         });
+
+//     //         const data = await response.json();
+//     //         console.log('File uploaded successfully:', data);
+//     //         alert(data.message)
+//     //     } catch (error) {
+//     //         console.error('Error uploading file:', error);
+//     //     }
+//     // } else {
+//     //     alert('Please select a file first!');
+//     // }
+// });
+//--------------------------------------------------------------------------------------------//
+
+document.getElementById('convertBtn').addEventListener('click', () => {
+    const fileInput = document.getElementById('fileInput');
+    const file = fileInput.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onloadend = function () {
+            const base64String = reader.result.split(',')[1]; // Remove the data URL part
             let uploadObj = {
-                cardAndTableToken: '"card"="dbf4484b651d8b1a8c3c5003d7c3b7c6bbcd0d3d", "table"="b7304e07dd52610ca960f638d17775350a743e3e"',
+                cardAndTableToken: '"card"="dccc6d3c762882684c4fb686bc973ab41b0ce286", "table"="1fb11ad09b5d15ef24b6bcfea50dfa2ba9e3f8b0"',
                 expensesheetnumber: 10000187,
-                rowNumber: 3,
-                fileBinaryData: fileBinaryData,
-                fileName: fileInput.name
+                rowNumber: 12,
+                fileBinaryData: base64String,
+                fileName: "testThroughUi.png"
                 // x_reconnect
             }
-            try {
-                // Send POST request with Base64 encoded data
-                const response = await fetch('/fileUplodToserver/fileUplodToserverApi', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(uploadObj)
-                });
-
-                const data = await response.json();
-                console.log('File uploaded successfully:', data);
-                alert(data.message)
-            } catch (error) {
-                console.error('Error uploading file:', error);
-            }
+            fetch('/fileUplodToserver/fileUplodToserverApi', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(uploadObj)
+            })
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(error => console.error('Error:', error));
         };
-
-        reader.readAsDataURL(fileInput);
-    } else {
-        alert('Please select a file first!');
+        reader.readAsDataURL(file);
     }
 });
+//--------------------------------------------------------------------------------------------//
+// document.getElementById('convertBtn').addEventListener('click', async function () {
+//     let fileInput = document.getElementById('fileInput').files[0];
+//     console.log(fileInput)
+//     if (fileInput) {
+//         let reader = new FileReader();
+
+//         reader.onload = async function (event) {
+//             let fileBinaryData = btoa(event.target.result);
+//             console.log(fileBinaryData)
+//             // return
+//             let uploadObj = {
+//                 cardAndTableToken: '"card"="dbf4484b651d8b1a8c3c5003d7c3b7c6bbcd0d3d", "table"="b7304e07dd52610ca960f638d17775350a743e3e"',
+//                 expensesheetnumber: 10000187,
+//                 rowNumber: 3,
+//                 fileBinaryData: fileBinaryData,
+//                 fileName: fileInput.name
+//                 // x_reconnect
+//             }
+//             try {
+//                 // Send POST request with Base64 encoded data
+//                 const response = await fetch('/fileUplodToserver/fileUplodToserverApi', {
+//                     method: 'POST',
+//                     headers: {
+//                         'Content-Type': 'application/json'
+//                     },
+//                     body: JSON.stringify(uploadObj)
+//                 });
+
+//                 const data = await response.json();
+//                 console.log('File uploaded successfully:', data);
+//                 alert(data.message)
+//             } catch (error) {
+//                 console.error('Error uploading file:', error);
+//             }
+//         };
+
+//         reader.readAsDataURL(fileInput);
+//     } else {
+//         alert('Please select a file first!');
+//     }
+// });
 
 
 // cardAndTableToken

@@ -1,17 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>File to Base64 Converter</title>
     <link rel="stylesheet" href="/css/style.css">
-    <script src="/javascript/fileUplodToserver.js" defer></script>
+    <!-- <script src="/javascript/fileUplodToserver.js" defer></script> -->
 </head>
+
 <body>
-    <div class="container">
-        <h1>File to Base64 Converter</h1>
-        <input type="file" id="fileInput" />
-        <button id="convertBtn">Convert & Send</button>
-    </div>
+    <!-- <div class="container">
+            <input type="file" name="uploadedFile" id="fileInput" />
+            <button id="convertBtn">Convert & Send</button>
+    </div> -->
+    <h1>Upload Multiple Files</h1>
+    <input type="file" id="fileInput1" multiple>
+    <input type="file" id="fileInput2" multiple>
+    <button id="convertBtn">Convert and Log</button>
+
+    <script>
+
+        function getFileDetails(fileInputElement){
+
+        }
+
+        getFileDetails(document.getElementById("fileInput1"));
+        
+
+        document.getElementById('convertBtn').addEventListener('click', async () => {
+            const fileInput = document.getElementById('fileInput');
+            const files = fileInput.files;
+
+            if (files.length > 0) {
+                try {
+                    const filePromises = Array.from(files).map(file => readFileAsBase64(file));
+                    const fileResults = await Promise.all(filePromises);
+                    
+                    const uploadObjs = fileResults.map(({ base64String, fileName }) => ({
+                        cardAndTableToken: '"card"="dccc6d3c762882684c4fb686bc973ab41b0ce286", "table"="1fb11ad09b5d15ef24b6bcfea50dfa2ba9e3f8b0"',
+                        expensesheetnumber: 10000187,
+                        rowNumber: 12,
+                        fileBinaryData: base64String,
+                        fileName: fileName
+                        // x_reconnect
+                    }));
+
+                    // Log formatted data to the console
+                    console.log('Formatted file data:');
+                    console.log(uploadObjs);
+
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            } else {
+                alert('No files selected');
+            }
+        });
+
+        function readFileAsBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = function () {
+                    const base64String = reader.result.split(',')[1]; // Remove the data URL part
+                    resolve({
+                        base64String,
+                        fileName: file.name
+                    });
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+    </script>
 </body>
+
 </html>

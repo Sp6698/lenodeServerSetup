@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Form Example</title>
+    <style>
+        .form-container {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-container input, .form-container textarea {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+        .form-container button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dynamic Form Example</h1>
+    <div id="forms-container">
+        <div class="form-container">
+            <label for="entrydate">Entry Date:</label>
+            <input type="date" class="entrydate" name="entrydate">
+            
+            <label for="jobnumber">Job Number:</label>
+            <input type="text" class="jobnumber" name="jobnumber">
+            
+            <label for="numberof">Number Of:</label>
+            <input type="number" class="numberof" name="numberof">
+            
+            <label for="unitpricecurrency">Unit Price Currency:</label>
+            <input type="text" class="unitpricecurrency" name="unitpricecurrency">
+            
+            <label for="attachment">Attachment:</label>
+            <input type="file" class="attachment" name="attachment">
+            
+            <button type="button" onclick="addForm()">Add Form</button>
+        </div>
+    </div>
+    
+    <button type="button" onclick="submitData()">Submit Data</button>
+
+    <script>
+        let formIndex = 0;
+
+        function addForm() {
+            formIndex++;
+            const formContainer = document.createElement('div');
+            formContainer.className = 'form-container';
+            formContainer.innerHTML = `
+                <label for="entrydate_${formIndex}">Entry Date:</label>
+                <input type="date" class="entrydate" name="entrydate_${formIndex}">
+                
+                <label for="jobnumber_${formIndex}">Job Number:</label>
+                <input type="text" class="jobnumber" name="jobnumber_${formIndex}">
+                
+                <label for="numberof_${formIndex}">Number Of:</label>
+                <input type="number" class="numberof" name="numberof_${formIndex}">
+                
+                <label for="unitpricecurrency_${formIndex}">Unit Price Currency:</label>
+                <input type="text" class="unitpricecurrency" name="unitpricecurrency_${formIndex}">
+                
+                <label for="attachment_${formIndex}">Attachment:</label>
+                <input type="file" class="attachment" name="attachment_${formIndex}">
+                
+                <button type="button" onclick="addForm()">Add Form</button>
+            `;
+            document.getElementById('forms-container').appendChild(formContainer);
+        }
+
+        
+
+        async function convertFileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const base64String = reader.result.split(',')[1];
+                    resolve(base64String);
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+        async function submitData() {
+            const forms = document.querySelectorAll('.form-container');
+            const data = [];
+            for (const form of forms) {
+                const entrydate = form.querySelector('.entrydate').value;
+                const jobnumber = form.querySelector('.jobnumber').value;
+                const numberof = form.querySelector('.numberof').value;
+                const unitpricecurrency = form.querySelector('.unitpricecurrency').value;
+                const attachmentInput = form.querySelector('.attachment');
+                const attachmentFile = attachmentInput.files[0];
+                const attachmentname = attachmentFile ? attachmentFile.name : null;
+                const attachment = attachmentFile ? await convertFileToBase64(attachmentFile) : null;
+                
+                data.push({
+                    entrydate,
+                    jobnumber,
+                    numberof,
+                    unitpricecurrency,
+                    attachmentname,
+                    attachment
+                });
+            }
+            console.log(data);
+            // Optionally, send the data to a server here
+        }
+    </script>
+</body>
+</html>
